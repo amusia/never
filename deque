@@ -1,0 +1,129 @@
+#include"stdio.h"
+#include"stdlib.h"
+#define MAX 4
+typedef struct DEQUE
+{
+	int front;
+	int rear;
+	int size;
+	int data[MAX];
+}deque;
+
+void push(int x,deque *D)
+{
+	if(D->size==MAX)
+		printf("Full!\n");
+	else
+	{
+		if(D->front>0)
+		{D->data[--D->front]=x;
+		D->size++;}
+		else{
+		D->front=MAX-1;
+		D->data[D->front]=x;
+		D->size++;}
+	}
+}
+
+void pop(deque *D)
+{
+	int x;
+	if(D->size==0){
+		printf("It's empty!\n");}
+	else{
+	x=D->data[D->front];
+	if(D->front<MAX-1)
+		D->front++;
+	else
+		D->front=0;
+	D->size--;
+	printf("The number %d has been deleted.\n",x);
+	}
+}
+
+
+void inject(int x,deque *D)
+{
+	if(D->size==MAX)
+		printf("Full!\n");
+	else
+	{
+		D->data[D->rear]=x;
+		D->size++;
+		if(D->rear<MAX-1)
+			D->rear++;
+		else
+			D->rear=0;
+	}
+}
+
+void eject(deque *D)
+{
+	int x;
+	if(D->size==0){
+		printf("It's empty!\n");
+	}
+	else{
+	if(D->rear>0)
+		x=D->data[--D->rear];
+	else{
+		D->rear=MAX-1;
+		x=D->data[D->rear];
+	}
+	D->size--;
+	
+		printf("The number %d has been deleted.\n",x);
+	}
+}
+
+void show(deque *D)
+{
+	int i;
+	if(D->size==0)
+		printf("It's empty!\n");
+	else if(D->front<D->rear-1){
+		for(i=D->front;i<D->rear-1;i++)
+			printf("%d ",D->data[i]);
+	}
+	else{
+		for(i=D->front;i<=MAX-1;i++)
+			printf("%d ",D->data[i]);
+		for(i=0;i<D->rear-1;i++)
+			printf("%d ",D->data[i]);
+	}
+}
+
+int main()
+{
+	int a,b;
+	int s=1;
+	deque *D;
+	D=(deque*)malloc(sizeof(deque));
+	D->front=D->rear=D->size=0;
+
+	printf("1.Insert X on the front end of deque D.\n");
+	printf("2.remove the front item of deque D and return it.\n");
+	printf("3.Insert X on the rear end of deque D.\n");
+	printf("4.Remove the rear item of deque D and return it.\n");
+	printf("5.Show the deque.\n");
+	printf("6.Exit.\n");
+    while(s){
+	printf("Choose your operations:\n");
+	scanf("%d",&a);
+	switch(a)
+	{
+	case 1:printf("Enter the number:");
+		scanf("%d",&b);
+		push(b,D);break;
+	case 2:pop(D);break;
+	case 3:	printf("Enter the number:");
+		scanf("%d",&b);
+		inject(b,D);break;
+	case 4:eject(D);break;
+	case 5:show(D);break;
+	case 6:s=0;break;
+	default:printf("Wront input!\n");break;
+	}
+	}
+	return 0;
+}
